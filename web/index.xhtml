@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+          
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Dueños</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Conpatible" content="IE=edge"/>
+    <h:outputStylesheet library="css" name="bootstrap.min.css"  />
+    </h:head>
+       
+    <h:body>
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" >Dueños</a>             
+        </nav>
+        <br></br>       
+           
+    <f:view>
+        <h:form>
+            <h:panelGrid columns="3"  >
+            <h:outputLabel value="Documento" for="doc"/>  
+            <h:inputText class="form-control" value="#{duenodao.documento}" id="doc" label="Documento" required="true"/> 
+            <h:message for="doc" style="color:red"/>
+            <h:outputLabel value="Nombres" for="nom"/>  
+            <h:inputText class="form-control" value="#{duenodao.nombres}" id="nom" label="Nombres" required="true"/> 
+            <h:message for="nom" style="color:red"/>
+            <h:outputLabel value="Apellidos" for="ape" />  
+            <h:inputText class="form-control" value="#{duenodao.apellidos}" id="ape" label="Apellidos" required="true"/> 
+            <h:message for="ape" style="color:red"/>
+            
+            <h:outputLabel value="Teléfono" for="tel"/>             
+            <h:inputText class="form-control" value="#{duenodao.telefono}" id="tel" label="Teléfono" required="true"/> 
+            <h:message for="tel" style="color:red"/>
+            
+            
+ 
+            <h:outputLabel value="Departamento" for="dep"/> 
+            
+            <h:selectOneMenu class="form-control" value="#{duenodao.departamento}" required="true" id="combodepartamentos"> 
+                <f:selectItem itemLabel="Seleccione"  itemValue="0"/>
+                
+                <f:selectItems itemValue="#{dep.cod_departamento}" itemLabel="#{dep.nombreDepartamento}" 
+                               value="#{duenodao.departamentos}" var="dep"/>
+                
+                <f:ajax event="change" render="combociudades" execute="combodepartamentos"
+                        listener="#{duenodao.actualizarCiudades}"/>
+               
+            </h:selectOneMenu>
+            
+            <h:message for="dep" style="color:red"/>
+            
+            
+            <h:outputLabel value="Ciudad" for="ciu"/>  
+            
+            <h:selectOneMenu class="form-control" value="#{duenodao.ciudad}" required="true" id="combociudades"> 
+                <f:selectItems itemValue="#{ciu.cod_ciudad}" itemLabel="#{ciu.nombreCiudad}" 
+                               value="#{duenodao.ciudadesfiltradas}" var="ciu"/>            
+            </h:selectOneMenu>
+            <h:message for="ciu" style="color:red"/>           
+            
+            
+            
+            <h:outputLabel value="Foto" for="foto"/>  
+            <h:inputText class="form-control" value="#{duenodao.foto}" id="foto" label="Foto" required="true"/> 
+            <h:message for="foto" style="color:red"/>
+            <h:commandButton class="btn btn-dark" value="Guardar" action="#{duenodao.registrardueno()}" />
+     
+            </h:panelGrid>
+             </h:form>
+            <br></br>            
+            
+            
+            <h:form>
+                <h:dataTable class="table bg-dark btn-primary" border="2" rowClasses="bg-success" 
+                             value="#{duenodao.listadueno}" var="d"  >
+                
+                    
+               <h:column>
+                    <f:facet name="header" >                        
+                        <h:outputLabel value="Documento"/>                    
+                    </f:facet>
+                    #{d.documento}                 
+                </h:column>
+                <h:column>
+                    <f:facet name="header">                        
+                        <h:outputLabel value="Nombres"/>
+                    </f:facet>
+                    <h:inputText value="#{d.nombres}" rendered="#{d.editar}"/>
+                    <h:outputLabel value="#{d.nombres}" rendered="#{not d.editar}"/> 
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Apellidos"/>
+                    </f:facet>
+                    <h:inputText value="#{d.apellidos}" rendered="#{d.editar}"/>
+                    <h:outputLabel value="#{d.apellidos}" rendered="#{not d.editar}"/>
+                    
+                </h:column>
+                    
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Teléfono"/>
+                    </f:facet>
+                    <h:inputText value="#{d.telefono}" rendered="#{d.editar}"/>
+                    <h:outputLabel value="#{d.telefono}" rendered="#{not d.editar}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Departamento"/>
+                    </f:facet>
+                    <h:inputText value="#{d.departamento}" rendered="#{d.editar}"/>
+                    <h:outputLabel value="#{d.departamento}" rendered="#{not d.editar}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Ciudad"/>
+                    </f:facet>
+                    <h:inputText value="#{d.ciudad}" rendered="#{d.editar}"/>
+                    <h:outputLabel value="#{d.ciudad}" rendered="#{not d.editar}"/>
+                </h:column>
+                    
+                    
+                <h:column>                 
+                    
+                    <f:facet name="header">
+                        <h:outputLabel value="Foto"/>
+                    </f:facet>
+                    <h:inputText value="#{d.foto}" rendered="#{d.editar}"/>
+                    <h:graphicImage url="#{d.foto}" width="50" rendered="#{not d.editar}"/>
+                    
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Actualizar"/>
+                    </f:facet>
+                    
+                    <h:commandLink style="color:#9B2A28" action="#{duenodao.editardueno(d)}" value="Editar" rendered="#{not d.editar}"/>
+                    <h:commandLink style="color:#0F3309" action="#{duenodao.modificardueno(d)}" value="Guardar" rendered="#{d.editar}"/>
+                   
+                                  
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Eliminar"/>
+                </f:facet>
+                   <h:commandLink style="color:#9B2A28" action="#{duenodao.eliminardueno(d.documento)}" value="Eliminar" rendered="#{not d.editar}"/>  
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Propiedades"/>                
+                </f:facet>
+                   
+                </h:column>
+                
+            </h:dataTable>
+            
+             
+               <p:dataTable class="table bg-dark btn-primary" 
+                             value="#{duenodao.listadueno}" var="d"  >
+                
+                    
+                   <p:column headerText="Documento" filterBy="#{d.documento}" 
+                             filterMatchMode="contains">
+                    <f:facet name="header" >                        
+                        <p:outputLabel value="Documento"/>                    
+                    </f:facet>
+                    #{d.documento}                 
+                
+                   </p:column>
+               <p:column headerText="Nombres" filterBy="#{d.nombres}" 
+                             filterMatchMode="contains">                                          
+                       
+                     <p:inputText value="#{d.nombres}" rendered="#{d.editar}"/>
+                    <p:outputLabel value="#{d.nombres}" rendered="#{not d.editar}"/> 
+                </p:column>
+                   
+                <p:column headerText="Apellidos" filterBy="#{d.apellidos}" 
+                             filterMatchMode="contains">                     
+                                          
+                    <p:inputText value="#{d.apellidos}" rendered="#{d.editar}"/>
+                    <p:outputLabel value="#{d.apellidos}" rendered="#{not d.editar}"/>
+                    
+                </p:column>
+                   
+                   
+                   
+                   
+               <p:column headerText="Teléfono" filterBy="#{d.telefono}" 
+                             filterMatchMode="contains">  
+                    
+                    <p:inputText value="#{d.telefono}" rendered="#{d.editar}"/>
+                    <p:outputLabel value="#{d.telefono}" rendered="#{not d.editar}"/>
+                </p:column>
+
+                   <p:column headerText="Departamento" filterBy="#{d.departamento}" 
+                             filterMatchMode="contains">  
+                    
+                       <p:inputText value="#{d.departamento}" rendered="#{d.editar}"/>
+                       <p:outputLabel value="#{d.departamento}" rendered="#{not d.editar}"/>
+                </p:column>
+                   
+                   <p:column headerText="Ciudad" filterBy="#{d.ciudad}" 
+                             filterMatchMode="contains">  
+                    
+                       <p:inputText value="#{d.ciudad}" rendered="#{d.editar}"/>
+                       <p:outputLabel value="#{d.ciudad}" rendered="#{not d.editar}"/>
+                </p:column>
+                   
+                   
+                   
+                <p:column headerText="Foto" >  
+                    
+                    <p:inputText value="#{d.foto}" rendered="#{d.editar}"/>
+                    <p:graphicImage url="#{d.foto}" width="50" rendered="#{not d.editar}"/>
+                    
+                </p:column>
+                
+                <p:column>
+                    <f:facet name="header">
+                        <p:outputLabel value="Actualizar"/>
+                    </f:facet>
+                    
+                    <p:commandLink style="color:#9B2A28" action="#{duenodao.editardueno(d)}" value="Editar" rendered="#{not d.editar}"/>
+                    <p:commandLink style="color:#0F3309" action="#{duenodao.modificardueno(d)}" value="Guardar" rendered="#{d.editar}"/>
+                                                     
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <p:outputLabel value="Eliminar"/>
+                </f:facet>
+                   <p:commandLink style="color:#9B2A28" action="#{duenodao.eliminardueno(d.documento)}" value="Eliminar" rendered="#{not d.editar}"/>  
+                </p:column>
+                
+                <p:column>
+                    <f:facet name="header">
+                        <p:outputLabel value="Propiedades"/>                
+                </f:facet>
+                   
+                </p:column>
+                
+            </p:dataTable>  
+                
+                
+                
+           
+        </h:form>
+    </f:view>
+    
+    </h:body>
+</html>
+
