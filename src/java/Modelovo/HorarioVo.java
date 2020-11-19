@@ -10,41 +10,41 @@ package Modelovo;
  * @author usuario
  */
 public class HorarioVo {
-    private String Cod_ciudad;
-    private String NombreCiudad;
-    private String Cod_departamento;
+    private String hora_id;
+    private String hora;
+    private String estado;
 
     public HorarioVo() {
     }
 
-    public HorarioVo(String Cod_ciudad, String NombreCiudad, String Cod_departamento) {
-        this.Cod_ciudad = Cod_ciudad;
-        this.NombreCiudad = NombreCiudad;
-        this.Cod_departamento = Cod_departamento;
+    public HorarioVo(String hora_id, String hora, String estado) {
+        this.hora_id = hora_id;
+        this.hora = hora;
+        this.estado = estado;
     }
 
-    public String getCod_ciudad() {
-        return Cod_ciudad;
+    public String gethora_id() {
+        return hora_id;
     }
 
-    public void setCod_ciudad(String Cod_ciudad) {
-        this.Cod_ciudad = Cod_ciudad;
+    public void sethora_id(String hora_id) {
+        this.hora_id = hora_id;
     }
 
-    public String getNombreCiudad() {
-        return NombreCiudad;
+    public String gethora() {
+        return hora;
     }
 
-    public void setNombreCiudad(String NombreCiudad) {
-        this.NombreCiudad = NombreCiudad;
+    public void sethora(String hora) {
+        this.hora = hora;
     }
 
-    public String getCod_departamento() {
-        return Cod_departamento;
+    public String getestado() {
+        return estado;
     }
 
-    public void setCod_departamento(String Cod_departamento) {
-        this.Cod_departamento = Cod_departamento;
+    public void setestado(String estado) {
+        this.estado = estado;
     }
     
     
